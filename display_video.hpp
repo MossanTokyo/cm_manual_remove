@@ -8,6 +8,23 @@
 #include<algorithm>
 #include<limits>
 
+
+// origin http://stackoverflow.com/questions/478898/how-to-execute-a-command-and-get-output-of-command-within-c-using-posix
+#include <cstdio>
+#include <iostream>
+#include <memory>
+#include <stdexcept>
+#include <string>
+
+#ifdef WIN32
+#define POPEN _popen
+#define PCLOSE _pclose
+#else
+#define POPEN popen
+#define PCLOSE pclose
+#endif
+
+
 int target_width = 500;
 
 void clear_screen()
@@ -357,12 +374,17 @@ public:
 		{
 			std::cout << "d\n";
 
+			if (end == -1 && start == -1)
+			{
+				if (main_contents.size() != 0)
+					main_contents.pop_back();
+			}
+
 			status = false;
 			start = -1;
 			end = -1;
 
-			main_contents.pop_back();
-
+			return true;
 		}
 		else if (KEYCODE_FIVE == key)
 		{
@@ -378,7 +400,7 @@ public:
 			{
 				status = false;
 
-				end = current_t;
+				end = int(current_t);
 
 				if (validate(std::make_pair(start, end)))
 				{
@@ -407,7 +429,7 @@ public:
 	{
 		std::cout << "\n\n main contents info.\n";
 
-		int i = 0;
+		unsigned int i = 0;
 
 		for (; i < main_contents.size(); ++i)
 		{

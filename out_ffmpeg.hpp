@@ -34,6 +34,6 @@ void trim(fs::ofstream & out, fs::path & file, std::vector<std::pair<int, int>> 
 	else
 	{
 		out << ffmpeg_path << " ";
-		out << file.string() << " -filter_complex \"yadif=0:-1 " << ffmpeg_options << " \"done\\" << file.stem().string() << ".mp4\"\n";
+		out << " -i \"" << file.string() << "\" -filter_complex \"yadif=0:-1\" " << ffmpeg_options << " \"done\\" << file.stem().string() << ".mp4\"\n";
 	}
 }
